@@ -1,0 +1,10 @@
+[package]
+name = "nsh-wake-lock"
+version = "0.0.1"
+edition = "2024"
+license = "MIT"
+description = "Keep the screen or the machine awake while the app needs it, and release it reliably."
+repository = "https://github.com/SuperNSH/wake-lock"
+publish = false
+
+[dependencies]
