@@ -1,0 +1,37 @@
+[package]
+name = "nsh-wake-lock"
+description = "Keep the screen or the machine awake while the app needs it, and release it reliably."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+thiserror = "2.0.21"
+
+# Apple: IOPMAssertion on macOS, the idle timer on iOS.
+[target.'cfg(target_vendor = "apple")'.dependencies]
+core-foundation = "0.10.1"
+
+# Android: FLAG_KEEP_SCREEN_ON over JNI. ndk-context carries the VM and the activity.
+[target.'cfg(target_os = "android")'.dependencies]
+jni = "0.22.4"
+ndk-context = "0.1.1"
+
+# Windows: PowerCreateRequest and friends.
+[target.'cfg(target_os = "windows")'.dependencies]
+# Threading gates PowerCreateRequest and REASON_CONTEXT in windows 0.62.
+windows = { version = "0.62.2", features = ["Win32_System_Power", "Win32_System_Threading"] }
+
+# Linux: the inhibit call over D-Bus.
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus = "6.2.1"
+
+# Web: the Screen Wake Lock API.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.130"
+js-sys = "0.3.107"
+
+[dev-dependencies]
+tokio = { version = "1.54.1", default-features = false, features = ["rt", "macros"] }

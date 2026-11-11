@@ -1,10 +1,9 @@
-[package]
-name = "nsh-wake-lock"
+[workspace]
+members = ["crates/nsh-wake-lock"]
+resolver = "3"
+
+[workspace.package]
 version = "0.0.1"
 edition = "2024"
 license = "MIT"
-description = "Keep the screen or the machine awake while the app needs it, and release it reliably."
 repository = "https://github.com/SuperNSH/wake-lock"
-publish = false
-
-[dependencies]

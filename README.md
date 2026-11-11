@@ -6,24 +6,23 @@ Part of the Native Shell (NSH) capability set. Same layout as the other SuperNSH
 
 ## Status
 
-**Scaffold. Not implemented.** The crate exposes one placeholder function and one test. Nothing here talks to a device yet. Read [docs/brief.md](docs/brief.md) for the planned approach and [docs/parity.md](docs/parity.md) for what is done.
+**Implemented, unverified.** This build delivers the Rust crate in `crates/nsh-wake-lock` (options, error model, lock and guard with release on drop, backend trait, fake backend, platform bridges for macOS, iOS, Android, Windows, Linux and web) and the TypeScript package in `packages/nsh-wake-lock` (the same error model and lock, expo-style tags, web and memory backends). The named tests for every edge case in [docs/goals.md](docs/goals.md) land in this same change set. No CI run has passed for it yet, so every capability claim above is unverified until a run on `master` passes. [docs/parity.md](docs/parity.md) tracks the evidence.
 
-## Planned approach
+## Approach
 
-keepawake on desktop. Native idle-timer and window flags on mobile. Acquire a guard and release it on drop.
+The brief's recommended path, built: keepawake-rs behavior on desktop, the native idle timer and window flag on mobile, the Screen Wake Lock API on web. Acquire a guard and release it on drop. See [docs/decisions.md](docs/decisions.md).
 
 ## Layout
 
-- `src/lib.rs`: placeholder crate.
-- `docs/brief.md`: options, recommended path and edge cases from the research.
-- `docs/decisions.md`: open decisions.
-- `docs/parity.md`: feature status.
+- `crates/nsh-wake-lock/`: the Rust crate — API in `lib.rs`, `options.rs`, `error.rs`, `backend.rs`, `lock.rs`, `fake.rs`; platform bridges under `src/platform/`. The behavior tests land in `tests/` with this change set.
+- `packages/nsh-wake-lock/`: the TypeScript package — `src/` (errors, options, backend, lock, tags, web, memory). The tests land in `tests/` with this change set.
+- `docs/`: `brief.md` (research), `goals.md` (acceptance criteria, error codes, edge cases), `decisions.md`, `parity.md` (status).
 - `site/`: static status page, published by `.github/workflows/pages.yml`.
-- `.zcode/workflow.ts`: the phases this area will run through.
+- `.github/workflows/ci.yml`: compiles and tests everything.
 
 ## Checks
 
-Every compile and test runs in GitHub Actions. Nothing is built on a developer machine.
+Nothing is built on a developer machine. CI runs: `cargo fmt --all -- --check`; `cargo clippy --all-targets -- -D warnings`; `cargo test --all-targets`; a per-target-triple `cargo clippy` (lib only) for each platform bridge; `npm run typecheck`; `npm test`. Bridge runtime behavior is not exercised on runners, and no claim may say it was.
 
 ## Licence
 
