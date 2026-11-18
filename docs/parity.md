@@ -2,7 +2,7 @@
 
 Each row names one API of wakelock_plus 1.8.2 (platform interface 1.7.0), expo-keep-awake 58.0.3 or keepawake-rs 0.4.3 — the names come from `.refs/wakelock_plus/`, `.refs/expo/packages/expo-keep-awake/src/` and `.refs/keepawake-rs/src/`, read on 2026-11-09 — the Rust and TypeScript items that answer it here, the status, and the test that covers it.
 
-**Status of this document: verified-pending-CI.** AGENTS.md: a claim with no passing run is unverified. This change set carries real bridges on all five platforms, compile-verified only off-host; no bridge has run on its device, and no CI run has executed the tests named below, so every row — each Done included — is a claim, not an observation. When a `master` run passes them, delete this paragraph.
+**Status of this document: library behavior verified by CI; bridge runtime unverified.** CI run [43053190833](https://github.com/SuperNSH/wake-lock/actions/runs/43053190833) on `master` (commit 7fb7a61) passed jobs `rust`, `typescript` and the five `check (<target>)` jobs, so every row's named test passed, and the bridges compile for their targets. Red-first evidence is run [44401086183](https://github.com/SuperNSH/wake-lock/actions/runs/44401086183), where deliberately broken release and validation code made five of the named tests fail (listed in README). Blocked, needs real hardware: no bridge (IOPM, idle timer, JNI window flag, Windows power request, D-Bus, Screen Wake Lock) has run on its device or browser, so every Platform only and device half stays unverified.
 
 Status words:
 

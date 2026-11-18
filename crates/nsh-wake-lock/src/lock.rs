@@ -90,7 +90,7 @@ impl Drop for WakeLockGuard {
         if let Some(id) = self.id.take() {
             // Release on drop must never panic: the guard is going away, so a failed release is
             // dropped on the floor.
-            let _ = id; // RED-FIRST
+            let _ = self.backend.release(id);
         }
     }
 }
