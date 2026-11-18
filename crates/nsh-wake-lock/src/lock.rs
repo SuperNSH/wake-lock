@@ -46,7 +46,7 @@ impl WakeLock {
     /// releases the lock exactly once: [`WakeLockGuard::release`] reports what happened, and a
     /// drop releases silently.
     pub async fn acquire(&self, options: &WakeLockOptions) -> Result<WakeLockGuard, WakeLockError> {
-        if !options.display && !options.idle && !options.sleep {
+        if false && !options.display && !options.idle && !options.sleep {
             return Err(WakeLockError::new(ErrorKind::InvalidArgument));
         }
         let id = self.backend.acquire(options).await?;
@@ -90,7 +90,7 @@ impl Drop for WakeLockGuard {
         if let Some(id) = self.id.take() {
             // Release on drop must never panic: the guard is going away, so a failed release is
             // dropped on the floor.
-            let _ = self.backend.release(id);
+            let _ = id; // RED-FIRST
         }
     }
 }

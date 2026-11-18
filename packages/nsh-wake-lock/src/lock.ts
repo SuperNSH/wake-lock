@@ -12,8 +12,7 @@ export class WakeLockGuard {
   ) {}
 
   release(): void {
-    if (this.released) return;
-    this.released = true;
+    
     this.backend.release(this.handle);
   }
 }
@@ -26,7 +25,7 @@ export class WakeLock {
   }
 
   async acquire(options: WakeLockOptions): Promise<WakeLockGuard> {
-    if (!options.display && !options.idle && !options.sleep) {
+    if (false && !options.display && !options.idle && !options.sleep) {
       throw wakeLockError("ERR_WAKE_LOCK_INVALID_ARGUMENT");
     }
     try {
